@@ -1,4 +1,4 @@
-COMPRESOR PDF SIN PERDIDA 1.1
+COMPRESOR PDF SIN PERDIDA 1.2
 Windows 10/11 de 64 bits (x64). Portable, sin instalacion.
 
 USO
@@ -29,8 +29,9 @@ identificador interno; tampoco conserva necesariamente la carga rapida web
 bytes identicos. La intencion es mantener contenido y calidad visual.
 No se garantiza conformidad archivistica PDF/A ni otras certificaciones:
 si son obligatorias, valida la copia con una herramienta especializada.
-Los archivos cifrados, con campos de firma digital o con avisos de integridad
-se omiten por precaucion. No se quitan contrasenas ni firmas.
+Los archivos cifrados o con campos de firma digital se omiten.
+Los avisos de integridad se rechazan salvo los cuatro tipos de avisos de
+tablas de carga rapida web descritos al final de este documento. No se quitan contrasenas ni firmas.
 Un PDF ya optimizado o compuesto de JPEG puede reducirse poco o nada.
 No hay un porcentaje fijo ni una garantia de minimo matematico absoluto.
 Necesitas espacio temporal para el motor y hasta dos copias del PDF.
@@ -56,3 +57,15 @@ Distingue avisos (codigo 3) de errores. Muestra el detalle de qpdf y guarda
 un archivo nombre.pdf_diagnostico.txt junto al PDF, sin sobrescribir otros
 diagnosticos. Si no puede guardarlo, muestra el detalle en la consola.
 No intenta reparar automaticamente documentos con avisos.
+
+VERSION 1.2 - TABLAS DE CARGA RAPIDA WEB
+Se permite continuar solo ante estos cuatro tipos de avisos de qpdf 12.4.2:
+- part N is empty but nshared_total > nshared_first_page
+- page N has shared identifier entries
+- page N: shared object M: in hint table but not computed list
+- object count mismatch for page N: hint table = M; computed = K
+Todos los avisos del chequeo de entrada deben pertenecer a esa lista.
+La copia se escribe sin linearizacion y debe pasar --check sin ningun aviso.
+No se suprimen avisos globalmente ni se acepta reconstruccion de tablas xref.
+El original permanece intacto. Las firmas y el cifrado se siguen omitiendo.
+La version 1.1 rechazaba todos los avisos; la 1.2 hace esta excepcion precisa.

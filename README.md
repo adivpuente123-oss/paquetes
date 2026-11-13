@@ -1,6 +1,6 @@
 # Paquetes
 
-## Compresor PDF sin pérdida 1.1 para Windows x64
+## Compresor PDF sin pérdida 1.2 para Windows x64
 
 [**Descargar CompresorPDF_Windows_x64.zip**](https://github.com/adivpuente123-oss/paquetes/raw/refs/heads/main/compresor-pdf/CompresorPDF_Windows_x64.zip)
 
@@ -9,17 +9,21 @@
 3. Selecciona uno o varios PDF. También puedes arrastrarlos sobre el ejecutable.
 4. La copia `nombre_comprimido.pdf` se guarda junto al original si pesa menos.
 
-Conserva los originales. No reduce la resolución de imágenes ni recomprime JPEG con pérdida. Omite PDF cifrados, con campos de firma digital o con errores. La reducción depende del archivo: un PDF optimizado puede no reducirse. Los archivos se procesan localmente y no se suben a Internet.
+Conserva los originales. No reduce la resolución de imágenes ni recomprime JPEG con pérdida. La reducción depende del archivo: un PDF optimizado puede no reducirse. Los archivos se procesan localmente y no se suben a Internet.
 
-La compresión cambia la estructura y los bytes del PDF; mantiene su contenido y calidad visual. No conserva necesariamente la linearización y no se certifica conformidad PDF/A.
+La compresión cambia la estructura y los bytes del PDF; mantiene su contenido y calidad visual. No conserva la linearización y no se certifica conformidad PDF/A. Los PDF cifrados o con campos de firma digital se omiten.
 
-Motor qpdf probado en Linux con texto, JPEG, formularios, enlaces, metadatos y adjuntos. El ejecutable se compiló para Windows x64, pero la interfaz de Windows no se ejecutó en este entorno.
+### Avisos de integridad y carga rápida web
+
+La versión 1.2 permite continuar si todos los avisos del chequeo de entrada corresponden a los cuatro patrones de tablas de carga rápida web enumerados en las instrucciones. La copia se escribe sin linearización y debe pasar la verificación de integridad sin avisos. Los avisos de referencias cruzadas, los errores de datos y los avisos desconocidos siguen bloqueándose.
+
+Si se bloquea un archivo, se muestra el detalle y se guarda `nombre.pdf_diagnostico.txt` junto al PDF.
+
+### Validación
+
+Motor qpdf probado en Linux con texto, JPEG, formularios, enlaces, metadatos y adjuntos. Se probó un PDF con una tabla de carga rápida web inconsistente: ambas compresiones producen copias sin avisos y con contenido lógico idéntico. También se comprueba el rechazo de avisos estructurales y mixtos. El ejecutable se compiló para Windows x64 con avisos del compilador tratados como errores; la interfaz de Windows no se ejecutó en este entorno.
 
 - [Instrucciones completas](compresor-pdf/LEEME.txt)
 - [Código fuente y compilación](compresor-pdf/codigo/)
 - [Pruebas realizadas](compresor-pdf/PRUEBAS.txt)
 - [Licencias](compresor-pdf/licencias/)
-
-### Versión 1.1: diagnóstico de avisos
-
-Si qpdf emite avisos o errores, el programa muestra el detalle y guarda `nombre.pdf_diagnostico.txt` junto al PDF. El código 3 identifica avisos y no implica necesariamente que el documento sea ilegible. Comparte el diagnóstico para determinar si es posible tratarlo sin cambiar el contenido; el programa no lo repara automáticamente.

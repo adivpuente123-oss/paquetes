@@ -1,6 +1,8 @@
+PASS: avisos conocidos aceptados; avisos mixtos, estructurales, desconocidos, truncados y demasiado largos rechazados
 PASS preserve: 386965 -> 3983 bytes; contenido lógico, JPEG, formulario, enlaces, metadatos y adjuntos idénticos
 PASS disable: 386965 -> 3983 bytes; contenido lógico, JPEG, formulario, enlaces, metadatos y adjuntos idénticos
 PASS detección de cifrado y original intacto
 PASS detección de campos de firma en objetos comprimidos
 PASS aviso recuperable: código 3, detalle de referencias cruzadas disponible y original intacto
+PASS PDF con aviso real de hint table: compresión aceptada, ambas copias sin avisos, contenido lógico idéntico y original intacto; reconstrucción xref y avisos mixtos rechazados
 Las pruebas ejecutan el motor qpdf en Linux. La interfaz PE de Windows se compila, pero no se ejecuta en este entorno.

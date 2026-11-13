@@ -1,5 +1,5 @@
 from pathlib import Path
-import hashlib, io, json, re, subprocess
+import hashlib, io, json, re, subprocess, zlib
 import pikepdf as p
 from PIL import Image
 
@@ -97,4 +97,50 @@ assert result.returncode==3 and b'WARNING' in result.stderr
 assert b'cross-reference' in result.stderr or b'startxref' in result.stderr
 assert hashlib.sha256(warning.read_bytes()).digest()==before
 print('PASS aviso recuperable: código 3, detalle de referencias cruzadas disponible y original intacto')
+classifier=ROOT/'test_warnings'
+subprocess.run(['gcc','-std=c11','-O2','-Wall','-Wextra','-Werror',str(ROOT/'test_warnings.c'),'-o',str(classifier)],check=True)
+subprocess.run([str(classifier)],check=True)
+linearized=TMP/'linearized.pdf'
+run('--linearize',source,linearized)
+data=linearized.read_bytes()
+hint=re.search(rb'/H\s*\[\s*(\d+)\s+(\d+)',data)
+offset=int(hint[1]);block=data[offset:offset+int(hint[2])]
+stream=re.search(rb'stream\r?\n(.*?)\r?\nendstream',block,re.S)
+raw=bytearray(zlib.decompress(stream[1]))
+raw[:4]=(int.from_bytes(raw[:4],'big')-1).to_bytes(4,'big')
+faulty=TMP/'hints-warning.pdf'
+def write_hint_fixture():
+    compressed=zlib.compress(raw)
+    assert len(compressed)<=len(stream[1])
+    compressed+=b'\0'*(len(stream[1])-len(compressed))
+    pos=offset+stream.start(1)
+    faulty.write_bytes(data[:pos]+compressed+data[pos+len(stream[1]):])
+write_hint_fixture()
+r=subprocess.run([str(QPDF),'--check',str(faulty)],capture_output=True)
+computed=re.search(rb'page length mismatch for page 0: hint table = \d+; computed length = (\d+)',r.stderr)
+assert computed
+raw[10:14]=int(computed[1]).to_bytes(4,'big')
+raw[22:26]=int(computed[1]).to_bytes(4,'big')
+write_hint_fixture()
+r=subprocess.run([str(QPDF),'--check',str(faulty)],capture_output=True)
+assert r.returncode==3
+log=TMP/'hints-warning.log';log.write_bytes(r.stdout+r.stderr)
+subprocess.run([str(classifier),str(log)],check=True)
+baseline=hashlib.sha256(faulty.read_bytes()).digest()
+with p.open(faulty) as d:
+    original_graph=(canonical(d.Root),canonical(d.docinfo))
+for mode in ('preserve','disable'):
+    output=TMP/f'hints-fixed-{mode}.pdf'
+    run(f'--object-streams={mode}','--compress-streams=y','--decode-level=generalized','--recompress-flate','--compression-level=9','--preserve-unreferenced',faulty,output)
+    run('--check',output)
+    with p.open(output) as d:
+        assert (canonical(d.Root),canonical(d.docinfo))==original_graph
+        assert d.pdf_version=='1.3'
+    assert output.stat().st_size<faulty.stat().st_size
+assert hashlib.sha256(faulty.read_bytes()).digest()==baseline
+bad=TMP/'structural-warning.log';bad.write_bytes(result.stdout+result.stderr)
+assert subprocess.run([str(classifier),str(bad)]).returncode==1
+log.write_bytes(log.read_bytes()+result.stderr)
+assert subprocess.run([str(classifier),str(log)]).returncode==1
+print('PASS PDF con aviso real de hint table: compresión aceptada, ambas copias sin avisos, contenido lógico idéntico y original intacto; reconstrucción xref y avisos mixtos rechazados')
 print('Las pruebas ejecutan el motor qpdf en Linux. La interfaz PE de Windows se compila, pero no se ejecuta en este entorno.')

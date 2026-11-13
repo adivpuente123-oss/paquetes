@@ -10,6 +10,7 @@
 #include <string.h>
 #include <io.h>
 #include <fcntl.h>
+#include "linearization_warnings.h"
 
 #define CAP 32768
 extern const unsigned char payload0[], payload0_end[], payload1[], payload1_end[], payload2[], payload2_end[], payload3[], payload3_end[], payload4[], payload4_end[];
@@ -91,10 +92,13 @@ static void process(const wchar_t *input){
  if(enc!=2){wprintf(L"Omitido: PDF cifrado o no se pudo analizar con seguridad.\n");if(enc!=0)diagnostic(src,enc);skip_count++;goto done;}
  swprintf(args,CAP*3,L"--check \"%ls\"",src);
  DWORD check=run(args,NULL);
- if(check!=0){
+ int hints_only=0;
+ if(check==3){FILE *f=_wfopen(logpath,L"rb");if(f){hints_only=hint_warnings_only(f);fclose(f);}}
+ if(check!=0&&!hints_only){
   wprintf(check==3?L"Omitido por precaucion: qpdf emitio avisos. Esto no significa necesariamente que el PDF sea ilegible.\n":L"Omitido: qpdf no pudo verificar el PDF.\n");
   diagnostic(src,check);wprintf(L"El original sigue intacto. Revisa el detalle antes de intentar una recuperacion.\n");skip_count++;goto done;
  }
+ if(hints_only)wprintf(L"Avisos solo en tablas de carga rapida web. Se continuara sin esa estructura; el contenido no se recomprime con perdida.\n");
  swprintf(args,CAP*3,L"--json --json-key=qpdf --json-stream-data=none \"%ls\"",src);
  DWORD analysis=run(args,json);if(analysis!=0){wprintf(L"Error al analizar el documento.\n");diagnostic(src,analysis);err_count++;goto done;}
  int sig=has_signature(json);DeleteFileW(json);
@@ -125,7 +129,7 @@ done:
 }
 int main(void){
  _setmode(_fileno(stdout),_O_U16TEXT);SetConsoleTitleW(L"Compresor PDF sin perdida");
- wprintf(L"COMPRESOR PDF SIN PERDIDA 1.1 - Windows 64 bits\n\nMantiene contenido y calidad visual. Siempre conserva el original.\nNo procesa PDF cifrados, con firma digital o con avisos sin revisar.\n\n");
+ wprintf(L"COMPRESOR PDF SIN PERDIDA 1.2 - Windows 64 bits\n\nMantiene contenido y calidad visual. Siempre conserva el original.\nSolo acepta avisos conocidos de tablas de carga rapida web.\n\n");
  if(!setup()){wprintf(L"No se pudo iniciar el motor temporal. Pulsa Intro para cerrar.\n");cleanup();getchar();return 1;}
  int argc=0;wchar_t **argv=CommandLineToArgvW(GetCommandLineW(),&argc);
  if(argc>1){for(int i=1;i<argc;i++)process(argv[i]);}
