@@ -1,5 +1,26 @@
 # Paquetes
 
+## Compresor PDF con imágenes compartidas 2.0 — recomendado para fondos repetidos
+
+[**Descargar CompresorPDF_Imagenes_Windows_x64.zip**](https://github.com/adivpuente123-oss/paquetes/raw/refs/heads/main/compresor-pdf-imagenes/CompresorPDF_Imagenes_Windows_x64.zip)
+
+Extrae **todo el ZIP** y abre `CompresorPDF_Imagenes.exe`. No necesita instalación ni Python en el equipo; conserva `runtime` y `optimizer.py` junto al ejecutable. Funciona sin Internet.
+
+Al abrirlo:
+
+- **Sí:** reutiliza imágenes idénticas y reduce a 1800 px las imágenes RGB o grises compatibles más anchas. Este modo reduce resolución.
+- **No:** reutiliza imágenes idénticas sin reducir su calidad.
+
+Conserva el original y crea una copia solo si pesa menos. El texto y los gráficos independientes permanecen como elementos del PDF; no se convierten en una imagen. Se verifican las instrucciones de dibujo, metadatos y adjuntos antes de guardar. Las imágenes complejas que no se pueden reducir con seguridad conservan su resolución.
+
+En una prueba sintética de 18 páginas con fondos idénticos de 4194 × 2767 px, se pasó de 18 copias de imagen a una. En el modo sin pérdida, las 18 páginas renderizadas fueron idénticas píxel por píxel. En el modo 1800 px, se mantuvieron iguales el texto extraíble y las instrucciones de dibujo. Esto no predice el resultado o la nitidez de un PDF particular.
+
+Motor probado en Linux. Lanzador compilado para Windows 10/11 x64; interfaz y runtime de Windows sin ejecutar en este entorno.
+
+[Instrucciones y límites](compresor-pdf-imagenes/LEEME.txt) · [Código del motor](compresor-pdf-imagenes/optimizer.py) · [Lanzador y receta de compilación](compresor-pdf-imagenes/codigo/) · [Pruebas](compresor-pdf-imagenes/PRUEBAS.txt)
+
+---
+
 ## Compresor PDF sin pérdida 1.2 para Windows x64
 
 [**Descargar CompresorPDF_Windows_x64.zip**](https://github.com/adivpuente123-oss/paquetes/raw/refs/heads/main/compresor-pdf/CompresorPDF_Windows_x64.zip)

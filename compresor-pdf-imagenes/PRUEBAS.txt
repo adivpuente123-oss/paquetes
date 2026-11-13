@@ -1,0 +1,7 @@
+PASS: 18 imagenes identicas -> 1; render de las 18 paginas pixel por pixel identico; texto, vectores y adjunto intactos
+PASS: modo 1800 px, proporcion correcta, una sola imagen reducida; texto seleccionable e instrucciones vectoriales identicos; originales y copias anteriores conservados
+PASS: imagenes con los mismos bytes y distinta interpretacion de colores NO se fusionan
+PASS: transparencias y sus mascaras conservadas sin reducir
+PASS: campos de firma y PDF cifrados omitidos
+Prueba sintetica: 4428025 -> 333981 bytes sin perdida; 182948 bytes a 1800 px. No predice la reduccion de otros PDF.
+Motor probado en Linux. Lanzador y runtime Windows preparados, sin ejecucion en Windows en este entorno.

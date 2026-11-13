@@ -1,0 +1,67 @@
+COMPRESOR PDF - IMAGENES COMPARTIDAS 2.0
+Windows 10/11 x64. Portable. No requiere instalar Python ni programas.
+
+USO
+1. Extrae TODO el ZIP en una carpeta. No ejecutes el EXE dentro del ZIP.
+2. Abre CompresorPDF_Imagenes.exe.
+3. Elige una opcion en la ventana:
+   SI: reutilizar imagenes identicas y reducir a 1800 px las mas anchas.
+   NO: solo reutilizar imagenes identicas, sin reducir su calidad.
+   CANCELAR: salir.
+4. Selecciona uno o varios PDF. Tambien puedes arrastrarlos sobre el EXE.
+5. Se guarda una copia junto al original si pesa menos.
+
+Conserva optimizer.py y la carpeta runtime junto al ejecutable. El motor
+Python incluido se usa solo para este programa: no se instala ni modifica
+el Python de tu equipo. Funciona sin Internet y no sube los PDF.
+
+QUE HACE
+Reemplaza las referencias a imagenes identicas por una referencia a una sola
+copia. Compara los bytes y los atributos de color, filtros, transparencias,
+metadatos y otras propiedades: no fusiona imagenes que se interpretan distinto.
+Busca imagenes dentro de los recursos de paginas y formularios, entre otros.
+No elimina formularios, texto ni vectores, ni convierte las paginas en fotos.
+Se conservan los adjuntos, el XMP y las propiedades del documento, que se
+comprueban antes de guardar. Tambien se comparan las instrucciones de dibujo
+de las paginas y formularios y se verifica la sintaxis de la copia.
+
+MODO 1800 PX
+Reducir la resolucion SI descarta detalle. Este modo no es sin perdida.
+Se reduce proporcionalmente cualquier imagen compatible de mas de 1800 px
+de ancho, no solo las fotos de fondo. Una imagen escaneada puede contener
+texto: ese texto tambien perderia resolucion y no se vuelve seleccionable.
+Las imagenes ya pequenas no se amplian. Solo reduce RGB y grises de 8 bits
+sin mascaras, transparencias, inversiones especiales ni perfiles complejos.
+Las restantes se conservan a su resolucion original. Los pixeles reducidos
+se almacenan con Flate sin una nueva compresion JPEG con perdida. Si la
+imagen resultante no es menor, conserva su version original.
+
+RESULTADOS Y LIMITES
+El resultado depende del PDF. Muchos fondos duplicados pueden ahorrar mucho
+espacio aun sin reducir la resolucion. Si no se consigue un archivo menor,
+no se crea una copia. No se garantiza un minimo matematico absoluto.
+El archivo original no se sobrescribe. Si ya existe una copia de salida,
+se usa un numero. Los PDF cifrados o con campos de firma se omiten.
+Los errores de referencias cruzadas no se reparan automaticamente.
+Las tablas antiguas de carga rapida web no se conservan y no se garantiza
+conformidad PDF/A. Los bytes internos y el identificador del PDF cambian.
+La nitidez del archivo particular debe revisarse al zoom y tamano de
+impresion que necesites. El programa no puede garantizar esa apreciacion.
+
+PRUEBAS
+Se genero un PDF sintetico de 18 paginas con fondos identicos de 4194x2767.
+El modo sin perdida dejo una sola imagen y las 18 paginas se compararon
+pixel por pixel con el original: resultado identico. El modo 1800 dejo una
+imagen de 1800x1188, con el mismo texto extraible e instrucciones vectoriales.
+Tambien se probaron transparencias, interpretaciones de color diferentes,
+adjuntos, nombres con espacios, firmas y cifrado. Ve PRUEBAS.txt.
+Las pruebas del motor se ejecutaron en Linux. El lanzador se compilo como
+PE Windows x64, pero ni la interfaz ni el runtime se ejecutaron en Windows
+en este entorno. No se probo tu PDF particular, que no fue accesible aqui
+por su tamano.
+
+CODIGO Y LICENCIAS
+optimizer.py contiene el motor. codigo/ contiene el lanzador, las pruebas y
+la receta de compilacion. El lanzador y motor usan licencia MIT.
+Python y las bibliotecas conservan sus licencias en runtime/LICENSE.txt y
+runtime/Lib/site-packages/*.dist-info/licenses/.
