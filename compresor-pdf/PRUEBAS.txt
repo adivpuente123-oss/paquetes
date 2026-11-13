@@ -1,0 +1,5 @@
+PASS preserve: 386965 -> 3983 bytes; contenido lógico, JPEG, formulario, enlaces, metadatos y adjuntos idénticos
+PASS disable: 386965 -> 3983 bytes; contenido lógico, JPEG, formulario, enlaces, metadatos y adjuntos idénticos
+PASS detección de cifrado y original intacto
+PASS detección de campos de firma en objetos comprimidos
+Las pruebas ejecutan el motor qpdf en Linux. La interfaz PE de Windows se compila, pero no se ejecuta en este entorno.

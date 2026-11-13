@@ -1,0 +1,52 @@
+COMPRESOR PDF SIN PERDIDA
+Windows 10/11 de 64 bits (x64). Portable, sin instalacion.
+
+USO
+1. Extrae el ZIP en una carpeta.
+2. Abre CompresorPDF.exe con doble clic.
+3. Selecciona uno o varios PDF y espera el resultado.
+Tambien puedes arrastrar archivos PDF sobre el ejecutable.
+
+El programa guarda nombre_comprimido.pdf junto al original. Si ese nombre
+ya existe, usa un numero. Nunca sobrescribe el original ni una copia anterior.
+Si no consigue reducir el peso, no crea una copia innecesaria.
+No requiere Python, Acrobat ni conexion a Internet. Los PDF se procesan
+localmente; no se envian a ningun servicio.
+
+QUE CONSERVA
+Comprime sin perdida los datos internos con qpdf 12.4.2, nivel Deflate 9.
+Prueba dos disposiciones de objetos y conserva la menor, si supera la
+verificacion de integridad y pesa menos que el original. Conserva la version
+del PDF: no activa formatos de objetos que requieran actualizarla.
+No renderiza paginas, reduce resolucion, cambia texto, recomprime JPEG con
+perdida ni elimina paginas, metadatos, anotaciones, formularios o adjuntos.
+Conserva tambien los objetos no referenciados.
+
+LIMITES IMPORTANTES
+El archivo resultante SI cambia sus bytes, estructura de almacenamiento e
+identificador interno; tampoco conserva necesariamente la carga rapida web
+(linearizacion). No es posible comprimir un archivo manteniendo todos sus
+bytes identicos. La intencion es mantener contenido y calidad visual.
+No se garantiza conformidad archivistica PDF/A ni otras certificaciones:
+si son obligatorias, valida la copia con una herramienta especializada.
+Los archivos cifrados, con campos de firma digital o con avisos de integridad
+se omiten por precaucion. No se quitan contrasenas ni firmas.
+Un PDF ya optimizado o compuesto de JPEG puede reducirse poco o nada.
+No hay un porcentaje fijo ni una garantia de minimo matematico absoluto.
+Necesitas espacio temporal para el motor y hasta dos copias del PDF.
+Si interrumpes el proceso cerrando la ventana, pueden quedar temporales en
+%TEMP%\PDFsinPerdida-*. Los originales nunca se modifican.
+
+VERIFICACION REALIZADA
+Ejecutable compilado como PE x64 para Windows. Motor qpdf probado en Linux
+con texto, imagen JPEG, metadatos XMP, formulario, enlace y archivo adjunto:
+contenido logico comparado antes y despues, original intacto, deteccion de
+cifrado y campos de firma incluso dentro de objetos comprimidos.
+La interfaz de Windows NO se ha ejecutado en este entorno Linux.
+
+CODIGO Y LICENCIAS
+codigo/ contiene el programa y las pruebas; licencias/ contiene avisos de
+componentes. El ejecutable integra qpdf y sus bibliotecas y los extrae en una
+carpeta temporal distinta en cada ejecucion; se eliminan al terminar.
+No dispone de firma Authenticode. Windows puede mostrar un aviso de editor
+desconocido. No cambies la configuracion de seguridad para ejecutarlo.
