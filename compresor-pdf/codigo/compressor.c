@@ -58,6 +58,25 @@ static int has_signature(const wchar_t *path){
  }
  if(ferror(f))found=-1;fclose(f);return found;
 }
+static void diagnostic(const wchar_t *src,DWORD code){
+ wprintf(L"\nDetalle del motor (codigo %lu):\n",code);
+ HANDLE h=CreateFileW(logpath,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL);
+ if(h!=INVALID_HANDLE_VALUE){
+  DWORD bytes=GetFileSize(h,NULL),got=0;if(bytes>65536)bytes=65536;
+  char *raw=calloc((size_t)bytes+1,1);
+  if(raw&&ReadFile(h,raw,bytes,&got,NULL)&&got){
+   int n=MultiByteToWideChar(CP_UTF8,0,raw,(int)got,NULL,0);wchar_t *wide=calloc((size_t)n+1,sizeof(wchar_t));
+   if(wide){MultiByteToWideChar(CP_UTF8,0,raw,(int)got,wide,n);wprintf(L"%ls\n",wide);free(wide);}
+  }free(raw);CloseHandle(h);
+ }
+ wchar_t path[CAP];size_t len=wcslen(src);if(len>CAP-80)return;
+ for(int i=1;i<=9999;i++){
+  if(i==1)swprintf(path,CAP,L"%ls_diagnostico.txt",src);else swprintf(path,CAP,L"%ls_diagnostico (%d).txt",src,i);
+  if(CopyFileW(logpath,path,TRUE)){wprintf(L"Diagnostico guardado: %ls\n",path);return;}
+  DWORD e=GetLastError();if(e!=ERROR_FILE_EXISTS&&e!=ERROR_ALREADY_EXISTS)break;
+ }
+ wprintf(L"No se pudo guardar el diagnostico. Copia el detalle mostrado arriba.\n");
+}
 static void process(const wchar_t *input){
  wchar_t src[CAP],args[CAP*3],json[CAP],candidate[CAP],best[CAP],dest[CAP];
  if(!GetFullPathNameW(input,CAP,src,NULL)){err_count++;return;}
@@ -69,20 +88,24 @@ static void process(const wchar_t *input){
  join(json,root,L"analysis.json");join(candidate,root,L"candidate.pdf");join(best,root,L"best.pdf");DeleteFileW(best);
  swprintf(args,CAP*3,L"--is-encrypted \"%ls\"",src);
  DWORD enc=run(args,NULL);
- if(enc!=2){wprintf(L"Omitido: PDF cifrado o no se pudo analizar con seguridad.\n");skip_count++;goto done;}
+ if(enc!=2){wprintf(L"Omitido: PDF cifrado o no se pudo analizar con seguridad.\n");if(enc!=0)diagnostic(src,enc);skip_count++;goto done;}
  swprintf(args,CAP*3,L"--check \"%ls\"",src);
- if(run(args,NULL)!=0){wprintf(L"Omitido: el PDF tiene errores o avisos de integridad.\n");skip_count++;goto done;}
+ DWORD check=run(args,NULL);
+ if(check!=0){
+  wprintf(check==3?L"Omitido por precaucion: qpdf emitio avisos. Esto no significa necesariamente que el PDF sea ilegible.\n":L"Omitido: qpdf no pudo verificar el PDF.\n");
+  diagnostic(src,check);wprintf(L"El original sigue intacto. Revisa el detalle antes de intentar una recuperacion.\n");skip_count++;goto done;
+ }
  swprintf(args,CAP*3,L"--json --json-key=qpdf --json-stream-data=none \"%ls\"",src);
- if(run(args,json)!=0){wprintf(L"Error al analizar el documento.\n");err_count++;goto done;}
+ DWORD analysis=run(args,json);if(analysis!=0){wprintf(L"Error al analizar el documento.\n");diagnostic(src,analysis);err_count++;goto done;}
  int sig=has_signature(json);DeleteFileW(json);
  if(sig!=0){wprintf(sig>0?L"Omitido: firma digital o campo de firma; se conserva intacto.\n":L"Error al verificar firmas.\n");if(sig>0)skip_count++;else err_count++;goto done;}
  for(int i=0;i<2;i++){
   wprintf(L"Optimizando sin perdida (%d/2)...\n",i+1);
   swprintf(args,CAP*3,L"--object-streams=%ls --compress-streams=y --decode-level=generalized --recompress-flate --compression-level=9 --preserve-unreferenced \"%ls\" \"%ls\"",i?L"disable":L"preserve",src,candidate);
   DeleteFileW(candidate);
-  if(run(args,NULL)!=0){wprintf(L"Error en la optimizacion. No se guarda ninguna copia.\n");err_count++;goto done;}
+  DWORD compression=run(args,NULL);if(compression!=0){wprintf(L"Error en la optimizacion. No se guarda ninguna copia.\n");diagnostic(src,compression);err_count++;goto done;}
   swprintf(args,CAP*3,L"--check \"%ls\"",candidate);
-  if(run(args,NULL)!=0){wprintf(L"La copia no paso la verificacion; no se guarda.\n");err_count++;goto done;}
+  DWORD verify=run(args,NULL);if(verify!=0){wprintf(L"La copia no paso la verificacion; no se guarda.\n");diagnostic(src,verify);err_count++;goto done;}
   unsigned long long now=size_of(candidate);
   if(now>0&&now<smallest){DeleteFileW(best);if(!MoveFileW(candidate,best)){wprintf(L"Error al guardar el temporal.\n");err_count++;goto done;}smallest=now;}
  }
@@ -102,7 +125,7 @@ done:
 }
 int main(void){
  _setmode(_fileno(stdout),_O_U16TEXT);SetConsoleTitleW(L"Compresor PDF sin perdida");
- wprintf(L"COMPRESOR PDF SIN PERDIDA - Windows 64 bits\n\nMantiene contenido y calidad visual. Siempre conserva el original.\nNo procesa PDF cifrados, con firma digital o con errores.\n\n");
+ wprintf(L"COMPRESOR PDF SIN PERDIDA 1.1 - Windows 64 bits\n\nMantiene contenido y calidad visual. Siempre conserva el original.\nNo procesa PDF cifrados, con firma digital o con avisos sin revisar.\n\n");
  if(!setup()){wprintf(L"No se pudo iniciar el motor temporal. Pulsa Intro para cerrar.\n");cleanup();getchar();return 1;}
  int argc=0;wchar_t **argv=CommandLineToArgvW(GetCommandLineW(),&argc);
  if(argc>1){for(int i=1;i<argc;i++)process(argv[i]);}

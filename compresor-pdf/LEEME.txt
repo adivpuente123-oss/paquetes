@@ -1,4 +1,4 @@
-COMPRESOR PDF SIN PERDIDA
+COMPRESOR PDF SIN PERDIDA 1.1
 Windows 10/11 de 64 bits (x64). Portable, sin instalacion.
 
 USO
@@ -50,3 +50,9 @@ componentes. El ejecutable integra qpdf y sus bibliotecas y los extrae en una
 carpeta temporal distinta en cada ejecucion; se eliminan al terminar.
 No dispone de firma Authenticode. Windows puede mostrar un aviso de editor
 desconocido. No cambies la configuracion de seguridad para ejecutarlo.
+
+VERSION 1.1 - DIAGNOSTICO
+Distingue avisos (codigo 3) de errores. Muestra el detalle de qpdf y guarda
+un archivo nombre.pdf_diagnostico.txt junto al PDF, sin sobrescribir otros
+diagnosticos. Si no puede guardarlo, muestra el detalle en la consola.
+No intenta reparar automaticamente documentos con avisos.

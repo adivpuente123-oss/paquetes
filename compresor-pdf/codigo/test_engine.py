@@ -1,5 +1,5 @@
 from pathlib import Path
-import hashlib, io, json, subprocess
+import hashlib, io, json, re, subprocess
 import pikepdf as p
 from PIL import Image
 
@@ -89,4 +89,12 @@ with p.open(source) as d:
 data=run('--json','--json-key=qpdf','--json-stream-data=none',signed)
 assert b'"/ByteRange"' in data and b'"/Sig"' in data
 print('PASS detección de campos de firma en objetos comprimidos')
+warning=TMP/'xref-warning.pdf'
+warning.write_bytes(re.sub(rb'startxref\s+\d+',b'startxref\n1',source.read_bytes()))
+before=hashlib.sha256(warning.read_bytes()).digest()
+result=subprocess.run([str(QPDF),'--check',str(warning)],capture_output=True)
+assert result.returncode==3 and b'WARNING' in result.stderr
+assert b'cross-reference' in result.stderr or b'startxref' in result.stderr
+assert hashlib.sha256(warning.read_bytes()).digest()==before
+print('PASS aviso recuperable: código 3, detalle de referencias cruzadas disponible y original intacto')
 print('Las pruebas ejecutan el motor qpdf en Linux. La interfaz PE de Windows se compila, pero no se ejecuta en este entorno.')
