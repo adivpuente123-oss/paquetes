@@ -1,0 +1,114 @@
+{
+  "archivo": "Indicadores_TV_DWH_visual_v2.pbix",
+  "paginas_totales": 19,
+  "paginas_redisenadas": 16,
+  "cambios": [
+    {
+      "pagina": "LSL-1",
+      "antes": 19,
+      "despues": 14,
+      "tipo": 1
+    },
+    {
+      "pagina": "LSL-2",
+      "antes": 17,
+      "despues": 11,
+      "tipo": 2
+    },
+    {
+      "pagina": "LSL-3.2",
+      "antes": 11,
+      "despues": 11,
+      "tipo": 3
+    },
+    {
+      "pagina": "LSL-4",
+      "antes": 11,
+      "despues": 10,
+      "tipo": 4
+    },
+    {
+      "pagina": "KNT-1",
+      "antes": 19,
+      "despues": 14,
+      "tipo": 1
+    },
+    {
+      "pagina": "KNT-2",
+      "antes": 17,
+      "despues": 11,
+      "tipo": 2
+    },
+    {
+      "pagina": "KNT-3.2",
+      "antes": 11,
+      "despues": 11,
+      "tipo": 3
+    },
+    {
+      "pagina": "KNT-4",
+      "antes": 11,
+      "despues": 10,
+      "tipo": 4
+    },
+    {
+      "pagina": "JOH-1",
+      "antes": 19,
+      "despues": 14,
+      "tipo": 1
+    },
+    {
+      "pagina": "JOH-2",
+      "antes": 17,
+      "despues": 11,
+      "tipo": 2
+    },
+    {
+      "pagina": "JOH-3.2",
+      "antes": 11,
+      "despues": 11,
+      "tipo": 3
+    },
+    {
+      "pagina": "JOH-4",
+      "antes": 11,
+      "despues": 10,
+      "tipo": 4
+    },
+    {
+      "pagina": "SND-1",
+      "antes": 19,
+      "despues": 14,
+      "tipo": 1
+    },
+    {
+      "pagina": "SND-2",
+      "antes": 17,
+      "despues": 11,
+      "tipo": 2
+    },
+    {
+      "pagina": "SND-3.2",
+      "antes": 11,
+      "despues": 11,
+      "tipo": 3
+    },
+    {
+      "pagina": "SND-4",
+      "antes": 11,
+      "despues": 10,
+      "tipo": 4
+    }
+  ],
+  "entradas_modificadas": [
+    "[Content_Types].xml",
+    "Report/Layout"
+  ],
+  "modelo_sha256": "3f112f4694ca461068a981b949b1b3aa263b996e6243e98e1b918c4b0f241b63",
+  "validacion_visual_nativa": "Pendiente: no hay Power BI Desktop en este entorno Linux.",
+  "SecurityBindings": "Se retira la firma de integridad antigua del contenedor y su declaración; no cambia el DataModel.",
+  "pbix_sha256": "f6cdcc4b6572ae5b4d8bc0ade3a1907187281da0a8c351b38ca98b743228f2fb",
+  "fondo_sha256": "05e39fb864640d333d932e0bc23aa3d5c3b6c43ebc09292e18761f49a764284d",
+  "fondos": "Se consolidan seis recursos de fondo idénticos en uno. Todas las páginas conservan los mismos bytes de imagen y ajustes de fondo. Sin cambio de resolución.",
+  "tamano_bytes": 103319654
+}

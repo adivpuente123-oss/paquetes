@@ -1,0 +1,41 @@
+REDISENO VISUAL PARA TV Y PDF
+
+Archivo: Indicadores_TV_DWH_visual_v2.pbix
+Se conserva el PBIX original de la release.
+
+Paginas redisenadas: LSL, KNT, JOH y SND, en sus variantes -1, -2, -3.2 y -4.
+- Recupero y avance: matriz conjunta por asesor y tarjetas existentes.
+- Cierre y ticket PDP: matriz conjunta por asesor, ordenada por cierre.
+- Gestiones por hora: matriz con colores turquesa por intensidad.
+- Asistencia: matriz con barras de puntualidad y colores suaves.
+Se conservan tambien las columnas de justificaciones de asistencia.
+Se conserva la imagen de fondo de cada pagina, sin modificar sus recursos.
+RANKING, ALCANCE y BIRTH se conservan sin cambios.
+
+VERIFICADO
+El DataModel es identico byte por byte: no cambian DAX, relaciones, datos ni
+conexiones del modelo. Se conservan los filtros de paginas, visuales y
+segmentadores. Las dos graficas de cada pagina -1/-2 se reunen en una
+matriz: las expresiones, agregaciones y condiciones de las consultas de
+ambas se conservan; cambia su disposicion y la ordenacion de la matriz.
+No se agregan metas ni indicadores con valores inventados de los bocetos.
+La estructura ZIP y el JSON interno se validaron y los nuevos contenedores
+estan dentro del lienzo de 1280x720.
+Al modificar el informe se retira SecurityBindings del contenedor, junto
+con su declaracion XML, para no conservar una firma de integridad antigua.
+Esto no modifica el DataModel ni sus roles o reglas.
+
+VALIDACION PENDIENTE EN POWER BI DESKTOP
+Este entorno Linux no dispone de Power BI Desktop: no se ha confirmado
+la apertura del archivo ni su renderizado nativo. Es una copia de trabajo
+con validacion de estructura; necesita revision en Desktop.
+Abre la copia nueva, revisa las 16 paginas, comprueba que las cifras
+coincidan con el original y exporta una prueba PDF. Segun el numero de
+asesores y horas filtradas puede ser necesario ajustar tamanos para evitar
+scroll. No se puede verificar el numero final de filas sin ejecutar el
+modelo en Power BI. No se aplicaron filtros Top N.
+
+Se consolidan seis copias identicas de la imagen de fondo en un recurso
+compartido, manteniendo sus bytes y resolucion originales en todas las paginas.
+En las matrices horarias se solicitan minimo/maximo de la medida existente
+solo para representar la intensidad de color; no cambia su calculo.
