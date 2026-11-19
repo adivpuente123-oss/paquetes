@@ -1,0 +1,42 @@
+{
+  "archivo": "CS_AVANCE_AS_con_historial.xlsx",
+  "sha256": "9df60f7441427d1e34cde5c9d4d164c9e2ac19100d0810dd086a21d2e11f6cbb",
+  "hojas_originales": [
+    "ING",
+    "NOVIEMBRE_2026",
+    "DIM",
+    "METAS",
+    "CSTC",
+    "SUPERVISORES_SEGMENTOS",
+    "SUPERVISORES_MES",
+    "LEEME_SUPERVISORES"
+  ],
+  "hojas_nuevas": [
+    "HISTORIAL_RECUPERO",
+    "LEEME_HISTORIAL"
+  ],
+  "partes_originales_preservadas": 37,
+  "partes_modificadas": [
+    "xl/styles.xml",
+    "xl/workbook.xml",
+    "xl/_rels/workbook.xml.rels",
+    "[Content_Types].xml"
+  ],
+  "historial": "Vacio; formulas preparadas en fila 2",
+  "validacion_excel": "Se comprueba por separado el calculo de formulas en LibreOffice; Excel Desktop no disponible.",
+  "pruebas_calculo": {
+    "motor": "LibreOffice Calc, sobre libros de prueba aislados",
+    "resultado": "PASS",
+    "casos": [
+      "diferencias consecutivas por DNI",
+      "fecha de cierre un dia antes de recepcion",
+      "primer corte sin base deja vacio",
+      "corte ausente deja vacio",
+      "duplicados actuales y previos bloqueados",
+      "cero informado se conserva",
+      "texto ausente no se convierte a cero",
+      "negativos conservados con aviso",
+      "reinicio mensual SI, NO y POR_CONFIRMAR"
+    ]
+  }
+}
