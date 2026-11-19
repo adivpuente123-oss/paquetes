@@ -1,0 +1,36 @@
+{
+  "archivo": "CS_AVANCE_AS_solo_D1.xlsx",
+  "sha256": "d0470a6b2112acd4e2b7e2a12478b1e5a71d8b3ac477b0efe59d9fa11515c845",
+  "hojas": [
+    "ING",
+    "NOVIEMBRE_2026",
+    "DIM",
+    "METAS",
+    "CSTC",
+    "SUPERVISORES_SEGMENTOS",
+    "SUPERVISORES_MES",
+    "LEEME_SUPERVISORES"
+  ],
+  "tabla": "D1_JULIO_2026",
+  "rango_anterior": "A2:L51",
+  "rango_nuevo": "A7:N56",
+  "columnas_nuevas": [
+    "FECHA_RECEPCION",
+    "FECHA_CORTE"
+  ],
+  "filas_originales_conservadas": 49,
+  "otras_hojas_y_tablas": "Entradas XML conservadas byte por byte",
+  "controles_N2_P3": "Sin cambios",
+  "fecha_corte_inicial": "No inventada: recepcion vacia",
+  "calculo_diario": "Se entrega en consulta Power Query separada; no se modifica el PBIX.",
+  "verificaciones": [
+    "ZIP y XML validos",
+    "Mismas ocho hojas",
+    "Otros XML de hojas y tablas identicos",
+    "49 filas originales: mismos valores almacenados",
+    "Formulas originales trasladadas con referencias relativas ajustadas",
+    "Parametros de anio, mes y dias laborables sin cambios",
+    "Consultas M: delimitadores y cadenas balanceados"
+  ],
+  "pendiente": "Las consultas M deben aplicarse y verificarse en Power BI Desktop. El PBIX no fue modificado."
+}
