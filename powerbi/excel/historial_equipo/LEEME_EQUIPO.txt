@@ -1,0 +1,66 @@
+EXCEL CON HISTORIAL POR EQUIPO
+
+Archivo: CS_AVANCE_AS_historial_equipo.xlsx
+
+Se uso el Excel original CS_AVANCE_AS.xlsx. Se conservaron sus ocho hojas,
+todas sus tablas y cada celda original. D1_JULIO_2026 sigue en A2:L51.
+No se agregaron hojas ni se desplazaron las tablas existentes.
+
+NUEVA TABLA
+En NOVIEMBRE_2026, a la derecha, desde S2:V3, se agrega HistorialEquipo:
+FECHA | EQUIPO | RECUPERO | ALCANCE.
+
+Completa FECHA, EQUIPO y RECUPERO. No escribas encima de ALCANCE.
+Al escribir una nueva fila inmediatamente debajo de la tabla, o pulsar Tab
+en su ultima celda, Excel ampliara la tabla y extendera la formula.
+
+FECHA es la fecha REAL DEL CIERRE. Si el 20/11 recibes el cierre del 19/11,
+escribe 19/11. No uses HOY() ni una formula que cambie los registros pasados.
+RECUPERO es el total ACUMULADO de ese equipo a ese cierre, no el importe diario.
+Anexa una fila por equipo y cierre sin sobrescribir los dias anteriores.
+No sumes subtotales y sus componentes como si fueran equipos diferentes.
+
+ALCANCE AUTOMATICO
+ALCANCE = RECUPERO / META DEL EQUIPO PARA EL MES DE FECHA.
+La formula consulta TablaMeta, de la hoja METAS, usando anio, mes y equipo.
+Si un equipo tiene varias filas por segmentos, suma Meta_Equipo de esas filas.
+No utiliza Meta_Asesor. El resultado puede diferir del promedio del alcance
+individual que usa tu tarjeta actual de Power BI: son indicadores distintos.
+
+Si faltan datos de entrada, queda vacio. Si falta la meta muestra SIN META;
+si la meta es cero o no valida muestra META NO VALIDA. Si hay dos registros
+del mismo equipo y fecha muestra DUPLICADO. Corrige esos casos antes de importar.
+Una celda de RECUPERO vacia no equivale a un cero informado.
+
+PARA EL GRAFICO HISTORICO
+Esta estructura basta para una linea historica por EQUIPO. No contiene el
+detalle por asesor. El total acumulado produce una linea acumulada.
+Para reproducir una linea de RECUPERO DIARIO que sube y baja hay que restar
+el acumulado del mismo equipo con cierre exactamente un dia anterior.
+El archivo opcional HistorialEquipo_Diario.pq prepara esa diferencia en Power Query.
+
+Ejemplo ficticio: corte 18/11 acumulado 10,000; corte 19/11 acumulado 11,200.
+El recupero diario del 19/11 es 1,200. No se ingresa otra vez 1,200 en RECUPERO:
+esa columna mantiene el acumulado 11,200 para que el siguiente corte sea comparable.
+Si falta el corte anterior, no se atribuye una diferencia de varios dias a uno solo.
+El primer corte a mitad de mes necesita la base previa; no reconstruye el pasado.
+
+IMPORTACION EN POWER BI
+Tus consultas actuales de D1_JULIO_2026 pueden seguir usando la tabla original.
+Esta version sustituye la propuesta anterior que convertia D1 en historial:
+no apliques los tres scripts de aquella propuesta a este archivo de cuatro columnas.
+
+1. Recalcula y guarda el Excel con los cortes reales antes de actualizar el BI.
+2. Importa HistorialEquipo como tabla nueva. Para una curva acumulada, usa FECHA,
+   EQUIPO y RECUPERO. No sumes acumulados de fechas diferentes como un total mensual.
+3. Para recupero diario, crea una consulta en blanco llamada HistorialEquipo_Diario.
+   Abre el archivo .pq con Bloc de notas y pega su contenido en el Editor avanzado.
+4. Cambia RutaExcel por la ruta real del archivo. Cambia ReinicioMensual a SI si el
+   acumulado vuelve a cero cada mes, o NO si continua. POR_CONFIRMAR deja el dia 1
+   pendiente sin impedir las diferencias dentro del mes.
+5. Usa FECHA como eje X, suma de RECUPERO_DIARIO como eje Y y EQUIPO como filtro
+   o leyenda. Una tabla calendario puede organizar el eje y el filtro mensual.
+6. Revisa CONTROL_DIARIO. Los ajustes negativos se conservan; no se fuerzan a cero.
+
+El Excel no contiene fechas ni recuperos simulados. El PBIX no se modifico.
+La consulta M se entrega preparada para revisar y aplicar en Power BI Desktop.

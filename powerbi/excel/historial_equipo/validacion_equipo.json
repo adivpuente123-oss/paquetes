@@ -1,0 +1,81 @@
+{
+  "archivo": "CS_AVANCE_AS_historial_equipo.xlsx",
+  "sha256": "fb0da0474712fe58fcd20a13e5eeaa6b643dd1fbd3952281b3ea2b81dc3f53b4",
+  "hojas_originales": [
+    "ING",
+    "NOVIEMBRE_2026",
+    "DIM",
+    "METAS",
+    "CSTC",
+    "SUPERVISORES_SEGMENTOS",
+    "SUPERVISORES_MES",
+    "LEEME_SUPERVISORES"
+  ],
+  "tabla_nueva": "HistorialEquipo",
+  "rango": "S2:V3",
+  "columnas": [
+    "FECHA",
+    "EQUIPO",
+    "RECUPERO",
+    "ALCANCE"
+  ],
+  "regla_alcance": "RECUPERO acumulado / suma de Meta_Equipo para el mes y equipo segun CONCAT",
+  "originales": "Todas las tablas y cada celda original preservadas; D1_JULIO_2026 sigue en A2:L51",
+  "fecha": "Fecha real del cierre; no se precargan datos historicos",
+  "calculo_validado": {
+    "motor": "LibreOffice Calc con datos de prueba aislados",
+    "casos": [
+      "meta por fecha y equipo",
+      "suma de segmentos JOHAN",
+      "equipo con espacios y minusculas",
+      "cero informado",
+      "entrada incompleta",
+      "equipo sin meta",
+      "meta cero",
+      "duplicados",
+      "otro periodo"
+    ],
+    "resultados": [
+      {
+        "fila_prueba": 3,
+        "resultado": "PASS"
+      },
+      {
+        "fila_prueba": 4,
+        "resultado": "PASS"
+      },
+      {
+        "fila_prueba": 5,
+        "resultado": "PASS"
+      },
+      {
+        "fila_prueba": 6,
+        "resultado": "PASS"
+      },
+      {
+        "fila_prueba": 7,
+        "resultado": "PASS"
+      },
+      {
+        "fila_prueba": 8,
+        "resultado": "PASS"
+      },
+      {
+        "fila_prueba": 9,
+        "resultado": "PASS"
+      },
+      {
+        "fila_prueba": 10,
+        "resultado": "PASS"
+      },
+      {
+        "fila_prueba": 11,
+        "resultado": "PASS"
+      },
+      {
+        "fila_prueba": 12,
+        "resultado": "PASS"
+      }
+    ]
+  }
+}
