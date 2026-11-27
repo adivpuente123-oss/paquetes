@@ -1,0 +1,53 @@
+{
+  "archivo": "Indicadores_TV_DWH_recaudo_v3.pbix",
+  "sha256": "26ab080394a48f89d0e0531e355365c2dd78df86a11bf6226aaaf3aa6c52a15f",
+  "bytes": 103831749,
+  "paginas": 22,
+  "verificaciones": [
+    "ZIP íntegro",
+    "Modelo descomprimido idéntico salvo metadata.sqlitedb",
+    "SQLite íntegro",
+    "Consultas y medidas releídas desde el PBIX generado",
+    "Referencias de todos los visuales verificadas",
+    "Mismos fondos, colores, posiciones y recursos gráficos, salvo título de tarjetas de recaudo",
+    "Historial sin duplicados de equipo y fecha",
+    "Resultados de referencia calculados desde el Excel adjunto"
+  ],
+  "resultados_excel": [
+    {
+      "equipo": "KENNETH",
+      "corte": "2026-11-26T00:00:00",
+      "recaudo": 339127,
+      "meta_excel": 441382.44666198036,
+      "alcance_esperado": 0.768329149844308,
+      "diario": 11042
+    },
+    {
+      "equipo": "SANDY",
+      "corte": "2026-11-26T00:00:00",
+      "recaudo": 264660.22,
+      "meta_excel": 379172.59373829636,
+      "alcance_esperado": 0.6979940648945413,
+      "diario": -5629.0
+    },
+    {
+      "equipo": "LISELY",
+      "corte": "2026-11-26T00:00:00",
+      "recaudo": 171390.9,
+      "meta_excel": 295979.6283086378,
+      "alcance_esperado": 0.5790631638380166,
+      "diario": 19887.0
+    },
+    {
+      "equipo": "JOHAN",
+      "corte": "2026-11-26T00:00:00",
+      "recaudo": 122013,
+      "meta_excel": 167355.9096830724,
+      "alcance_esperado": 0.7290629905514553,
+      "diario": 5846
+    }
+  ],
+  "datos_cache": "El PBIX conserva los datos de su última actualización. Abrir y actualizar en el equipo con acceso a Z: y SQL.",
+  "validacion_power_bi_desktop": false,
+  "limitacion": "No se ha abierto ni actualizado este archivo en Power BI Desktop. La validación estructural no sustituye la comprobación con el motor de Power BI."
+}

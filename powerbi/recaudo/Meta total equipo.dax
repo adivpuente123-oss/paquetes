@@ -1,0 +1,20 @@
+VAR MesSeleccionado = SELECTEDVALUE('BD Asistencia'[CodigoMes])
+VAR FechaReferencia = COALESCE(MesSeleccionado, MAX('HistorialEquipo'[FECHA]))
+VAR InicioMes = DATE(YEAR(FechaReferencia), MONTH(FechaReferencia), 1)
+VAR FinMes = EDATE(InicioMes, 1)
+VAR Equipos = INTERSECT(VALUES('D1_MAYO_2026'[Equipo]), VALUES('HistorialEquipo'[EQUIPO]))
+RETURN
+IF(ISBLANK(FechaReferencia), BLANK(),
+    SUMX(Equipos,
+        VAR EquipoActual = 'D1_MAYO_2026'[Equipo]
+        VAR FechaCorte = CALCULATE(
+            MAX('HistorialEquipo'[FECHA]),
+            KEEPFILTERS('HistorialEquipo'[EQUIPO] = EquipoActual),
+            KEEPFILTERS('HistorialEquipo'[FECHA] >= InicioMes),
+            KEEPFILTERS('HistorialEquipo'[FECHA] < FinMes)
+        )
+        RETURN IF(ISBLANK(FechaCorte), BLANK(),
+            CALCULATE(SUM('MetasEquipo'[Meta_Equipo]), 'MetasEquipo'[Equipo] = EquipoActual, 'MetasEquipo'[AÑO] = YEAR(FechaCorte), 'MetasEquipo'[mes] = MONTH(FechaCorte))
+        )
+    )
+)
